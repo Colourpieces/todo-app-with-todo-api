@@ -9,6 +9,48 @@
 </head>
 
 <body>
+    <header class="header">
+        <h1>ToDo App</h1>
+    </header>
+    <main>
+        <div class="toolbar">
+            <div class="wrapper-add-todo">
+                <label for="input-new-todo">neue Aufgabe:</label>
+                <input class="input-new-todo" id="input-new-todo" type="text" placeholder="du schaffst das!">
+                <button class="button" id="btn-add-todo">+</button>
+            </div>
+            <button class="button" id="btn-delete-done">erledigte löschen</button>
+            <button class="button" id="btn-delete-all">Alle löschen</button>
+            <div>
+                <label for="filter-select">Filter:</label>
+
+                <select name="filter" id="filter-select">
+                    <option value="all">Alle</option>
+                    <option value="done">erledigt</option>
+                    <option value="open">unerledigt</option>
+                </select>
+            </div>
+        </div>
+        <ul class="todo-list" id="todo-list">
+            <li class="todo-item">
+                <input type="checkbox" name="todo-test" id="todo-test">
+                <label class="todo-description" for="todo-test">test to do</label>
+                <button class="btn-delete-todo" id="btn-delete-todo">x</button>
+            </li>
+            <li class="todo-item">
+                <input type="checkbox" name="todo-test" id="todo-test">
+                <label class="todo-description" for="todo-test">test to do</label>
+                <button class="btn-delete-todo" id="btn-delete-todo">x</button>
+            </li>
+            <li class="todo-item">
+                <input type="checkbox" name="todo-test" id="todo-test">
+                <label class="todo-description done" for="todo-test">test to do</label>
+                <button class="btn-delete-todo" id="btn-delete-todo">x</button>
+            </li>
+        </ul>
+    </main>
+
+
     <script src="script.js"></script>
 </body>
 

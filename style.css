@@ -1,0 +1,141 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+html,
+body {
+  min-height: 100%;
+}
+html {
+  font-family: sans-serif;
+
+  --dark-blue: #073b4c;
+  --light-blue: #118ab2;
+  --green: #06d6a0;
+  --yellow: #f5ab00;
+  --pink: #3ba396e3; /* #ef476f */
+  --light-grey: #f5f5f5;
+  --white: white;
+}
+
+body {
+  margin: 0;
+  background-color: var(--light-grey);
+}
+
+.header {
+  text-align: center;
+  background-color: var(--pink);
+  padding: 3rem 1rem;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 3rem;
+
+  text-shadow: 2px 2px var(--light-blue), 4px 4px var(--yellow);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-around;
+
+  color: var(--light-blue);
+  padding: 1rem;
+  background-color: rgb(179, 210, 209);
+}
+
+.input-new-todo {
+  all: unset;
+  /* display: inline-block; */
+  /* flex-grow: 1; */
+  width: auto;
+  background-color: var(--light-grey);
+  padding: 0.2em;
+  border: 0.1em solid transparent;
+  border-radius: 0.3em;
+}
+
+.input-new-todo:focus,
+select:focus {
+  border: 0.1em solid var(--yellow);
+}
+
+select {
+  all: unset;
+  /* display: inline-block; */
+  /* flex-grow: 1; */
+  width: auto;
+  background-color: var(--light-grey);
+  padding: 0.2em;
+  border: 0.1em solid transparent;
+  border-radius: 0.3em;
+  box-shadow: 3px 3px 0px var(--pink);
+}
+
+.button {
+  all: unset;
+  /*display: block;
+  word-break: keep-all;
+  word-wrap: normal;*/
+  color: var(--white);
+  background-color: var(--light-blue);
+  padding: 0.25em 0.4em;
+  border-radius: 0.3em;
+  border: 0.1em solid transparent;
+  box-shadow: 3px 3px 0px var(--pink);
+}
+
+.button:focus {
+  border: 0.1em solid var(--yellow);
+}
+
+.button:active {
+  box-shadow: none;
+}
+
+.todo-list {
+  padding: 1rem;
+}
+
+.todo-list > * + * {
+  margin-top: 0.5rem;
+}
+
+.todo-item {
+  list-style-type: none;
+
+  max-width: 40vw;
+
+  background-color: var(--white);
+  padding: 0.5em 1em;
+  border-radius: 0.3em;
+  display: flex;
+  align-items: center;
+  border: 0.1em solid transparent;
+}
+
+.todo-item:focus-within {
+  box-shadow: 3px 3px 0 var(--pink);
+  border: 0.1em solid var(--yellow);
+}
+
+.btn-delete-todo {
+  all: unset;
+  color: transparent;
+  background-color: transparent;
+  padding-inline: 0.2em;
+  border-radius: 10%;
+}
+
+.todo:hover .btn-delete-todo {
+  color: whitesmoke;
+  background-color: var(--light-blue);
+}
+
+.done {
+  text-decoration: line-through;
+}
