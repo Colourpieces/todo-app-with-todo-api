@@ -24,6 +24,17 @@ function getState2() {
     });
 }
 
+async function putState(id, todoLi) {
+  const resp = await fetch("http://localhost:4730/todos/" + id, {
+    method: "PUT",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(todoLi),
+  });
+  const todos = await resp.json();
+  getState();
+  renderTodos();
+}
+
 function renderTodos() {
   const todoList = document.querySelector("#todo-list");
   todoList.innerHTML = "";
@@ -60,9 +71,20 @@ function renderTodos() {
     newTodoDeleteButton.appendChild(document.createTextNode("x"));
     todoItem.appendChild(newTodoDeleteButton);
 
+    todoItem.getObj = todoElement;
     todoList.appendChild(todoItem);
   });
 }
 
+const todoList = document.querySelector("#todo-list");
+todoList.addEventListener("change", (e) => {
+  console.log("--------");
+  const todoLi = e.target.parentNode.getObj;
+  todoLi.done = e.target.checked;
+  //console.log(state.todos);
+  putState(todoLi.id, todoLi);
+});
+
+///////////////////////////////////////////////////
 getState();
 renderTodos();
