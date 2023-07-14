@@ -111,11 +111,12 @@ select {
   max-width: 40vw;
 
   background-color: var(--white);
+  border: 0.1em solid transparent;
   padding: 0.5em 1em;
   border-radius: 0.3em;
+
   display: flex;
-  align-items: center;
-  border: 0.1em solid transparent;
+  gap: 1em;
 }
 
 .todo-item:focus-within {
@@ -131,11 +132,11 @@ select {
   border-radius: 10%;
 }
 
-.todo:hover .btn-delete-todo {
+.todo-item:hover .btn-delete-todo {
   color: whitesmoke;
   background-color: var(--light-blue);
 }
 
-.done {
+.checkbox:checked + .todo-description {
   text-decoration: line-through;
 }

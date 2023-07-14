@@ -11,24 +11,39 @@ function renderTodos() {
   const todoList = document.querySelector("#todo-list");
   todoList.innerHTML = "";
 
-  const newTodoDescription = document.createElement("label");
-  newTodoDescription.appendChild(document.createTextNode("test"));
-  /*
-  const newTodoState = document.createElement("input");
-  newTodoState.setAttribute("type", "checkbox");
-  newTodoState.setAttribute("id", "todo");
-  newTodoState.appendChild(document.createTextNode("test"));
+  state.todos.forEach((todoElement) => {
+    const todoItem = document.createElement("li");
+    todoItem.classList = "todo-item";
 
-  */
-  todoList.appendChild(newTodoDescription);
+    const classId = `todo-${todoElement.id}`;
+
+    const newTodoState = document.createElement("input");
+    newTodoState.type = "checkbox";
+    newTodoState.checked = todoElement.done;
+    newTodoState.classList = "checkbox";
+    //newTodoState.id = `todo-${todoElement.id}`;
+    //newTodoState.setAttribute("id", "`todo-${todoElement.id}`");
+    //newTodoState.setAttribute("id", classId);
+    newTodoState.id = classId;
+    todoItem.appendChild(newTodoState);
+
+    const newTodoDescription = document.createElement("label");
+    newTodoDescription.classList = "todo-description";
+
+    newTodoDescription.htmlFor = classId;
+    newTodoDescription.appendChild(
+      document.createTextNode(todoElement.description)
+    );
+    todoItem.appendChild(newTodoDescription);
+
+    const newTodoDeleteButton = document.createElement("button");
+    newTodoDeleteButton.classList = "btn-delete-todo";
+    newTodoDeleteButton.id = "delete-" + classId;
+    newTodoDeleteButton.appendChild(document.createTextNode("x"));
+    todoItem.appendChild(newTodoDeleteButton);
+
+    todoList.appendChild(todoItem);
+  });
 }
 
 renderTodos();
-
-/*
-<li class="todo-item">
-<input type="checkbox" name="todo-test" id="todo-test">
-<label class="todo-description done" for="todo-test">test to do</label>
-<button class="btn-delete-todo" id="btn-delete-todo">x</button>
-</li>
-*/
