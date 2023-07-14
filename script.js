@@ -7,11 +7,29 @@ let state = {
   ],
 };
 
+async function getState() {
+  const resp = await fetch("http://localhost:4730/todos");
+  // console.log(resp);
+  const todos = await resp.json();
+  state.todos = todos;
+  renderTodos();
+}
+//Alternative
+function getState2() {
+  fetch("http://localhost:4730/todos")
+    .then((request) => request.json())
+    .then((todos) => {
+      state.todos = todos;
+      renderTodos();
+    });
+}
+
 function renderTodos() {
   const todoList = document.querySelector("#todo-list");
   todoList.innerHTML = "";
 
   state.todos.forEach((todoElement) => {
+    console.log(todoElement);
     const todoItem = document.createElement("li");
     todoItem.classList = "todo-item";
 
@@ -46,4 +64,5 @@ function renderTodos() {
   });
 }
 
+getState();
 renderTodos();
