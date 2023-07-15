@@ -15,14 +15,14 @@ async function getState() {
   renderTodos();
 }
 //Alternative
-function getState2() {
-  fetch("http://localhost:4730/todos")
-    .then((request) => request.json())
-    .then((todos) => {
-      state.todos = todos;
-      renderTodos();
-    });
-}
+// function getState2() {
+//   fetch("http://localhost:4730/todos")
+//     .then((request) => request.json())
+//     .then((todos) => {
+//       state.todos = todos;
+//       renderTodos();
+//     });
+// }
 
 async function putState(id, todoLi) {
   const resp = await fetch("http://localhost:4730/todos/" + id, {
@@ -35,12 +35,23 @@ async function putState(id, todoLi) {
   renderTodos();
 }
 
+async function postTodo(todoLi) {
+  const resp = await fetch("http://localhost:4730/todos/", {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(todoLi),
+  });
+  const newTodo = await resp.json();
+  state.todos.push(newTodo);
+  renderTodos();
+}
+
 function renderTodos() {
   const todoList = document.querySelector("#todo-list");
   todoList.innerHTML = "";
 
   state.todos.forEach((todoElement) => {
-    console.log(todoElement);
+    //console.log(todoElement);
     const todoItem = document.createElement("li");
     todoItem.classList = "todo-item";
 
@@ -76,13 +87,50 @@ function renderTodos() {
   });
 }
 
+function isDuplicate(todoDescription) {
+  console.log(todoDescription);
+  for (let i = 0; i < state.todos.length; i++) {
+    const currentTodo = state.todos[i];
+    if (
+      currentTodo.description.toLowerCase() === todoDescription.toLowerCase()
+    ) {
+      return true;
+      break;
+    }
+  }
+  return false;
+}
+
 const todoList = document.querySelector("#todo-list");
 todoList.addEventListener("change", (e) => {
-  console.log("--------");
   const todoLi = e.target.parentNode.getObj;
   todoLi.done = e.target.checked;
-  //console.log(state.todos);
   putState(todoLi.id, todoLi);
+});
+
+const buttonAddTodo = document.querySelector("#btn-add-todo");
+const inputNewTodo = document.querySelector("#input-new-todo");
+buttonAddTodo.addEventListener("click", () => {
+  const description = inputNewTodo.value.trim();
+  if (!description) {
+    alert(
+      "Eine Aufgabe muss mindestens 1 Zeichen beinhalten. Leerzeichen vorne und hinten werden entfernt."
+    );
+    return;
+  }
+  if (isDuplicate(description)) {
+    alert("Diese Aufgabe gibt es schon! Gibt es noch andere Aufgaben?");
+    return;
+  }
+
+  const newTodoObject = {
+    description: description,
+    done: false,
+  };
+  console.log(newTodoObject);
+  postTodo(newTodoObject);
+  renderTodos();
+  console.log(state.todos);
 });
 
 ///////////////////////////////////////////////////
