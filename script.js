@@ -53,20 +53,21 @@ function renderTodos() {
   todoList.innerHTML = "";
 
   state.todos.forEach((todoElement) => {
-    let renderTodoItem = false;
+    let renderTodoItem = true;
+
     switch (filter.value) {
       case "all":
         //alles rendern
         renderTodoItem = true;
         break;
       case "done":
-        if (todoElement.done) {
-          renderTodoItem = true;
+        if (!todoElement.done) {
+          renderTodoItem = false;
         }
         break;
       case "open":
-        if (!todoElement.done) {
-          renderTodoItem = true;
+        if (todoElement.done) {
+          renderTodoItem = false;
         }
         break;
     }
@@ -148,15 +149,16 @@ buttonAddTodo.addEventListener("click", () => {
     description: description,
     done: false,
   };
-  console.log(newTodoObject);
+
   postTodo(newTodoObject);
   renderTodos();
 });
 
 const filter = document.querySelector("#filter-select");
-filter.addEventListener("change", () => {
+filter.addEventListener("sl-change", () => {
   renderTodos();
 });
 ///////////////////////////////////////////////////
-getState();
-renderTodos();
+window.onload = function () {
+  getState();
+};
