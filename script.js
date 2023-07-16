@@ -48,47 +48,68 @@ async function postTodo(todoLi) {
 
 function renderTodos() {
   const todoList = document.querySelector("#todo-list");
+  const filter = document.querySelector("#filter-select");
+
   todoList.innerHTML = "";
 
   state.todos.forEach((todoElement) => {
-    //console.log(todoElement);
-    const todoItem = document.createElement("li");
-    todoItem.classList = "todo-item";
+    let renderTodoItem = false;
+    switch (filter.value) {
+      case "all":
+        //alles rendern
+        renderTodoItem = true;
+        break;
+      case "done":
+        if (todoElement.done) {
+          renderTodoItem = true;
+        }
+        break;
+      case "open":
+        if (!todoElement.done) {
+          renderTodoItem = true;
+        }
+        break;
+    }
+    if (renderTodoItem) {
+      //wie unterbricht man forEach??
 
-    const classId = `todo-${todoElement.id}`;
+      const todoItem = document.createElement("li");
+      todoItem.classList = "todo-item";
 
-    const newTodoState = document.createElement("input");
-    newTodoState.type = "checkbox";
-    newTodoState.checked = todoElement.done;
-    newTodoState.classList = "checkbox";
-    //newTodoState.id = `todo-${todoElement.id}`;
-    //newTodoState.setAttribute("id", "`todo-${todoElement.id}`");
-    //newTodoState.setAttribute("id", classId);
-    newTodoState.id = classId;
-    todoItem.appendChild(newTodoState);
+      const classId = `todo-${todoElement.id}`;
 
-    const newTodoDescription = document.createElement("label");
-    newTodoDescription.classList = "todo-description";
+      const newTodoState = document.createElement("input");
+      newTodoState.type = "checkbox";
+      newTodoState.checked = todoElement.done;
+      newTodoState.classList = "checkbox";
+      //newTodoState.id = `todo-${todoElement.id}`;
+      //newTodoState.setAttribute("id", "`todo-${todoElement.id}`");
+      //newTodoState.setAttribute("id", classId);
+      newTodoState.id = classId;
+      todoItem.appendChild(newTodoState);
 
-    newTodoDescription.htmlFor = classId;
-    newTodoDescription.appendChild(
-      document.createTextNode(todoElement.description)
-    );
-    todoItem.appendChild(newTodoDescription);
+      const newTodoDescription = document.createElement("label");
+      newTodoDescription.classList = "todo-description";
 
-    const newTodoDeleteButton = document.createElement("button");
-    newTodoDeleteButton.classList = "btn-delete-todo";
-    newTodoDeleteButton.id = "delete-" + classId;
-    newTodoDeleteButton.appendChild(document.createTextNode("x"));
-    todoItem.appendChild(newTodoDeleteButton);
+      newTodoDescription.htmlFor = classId;
+      newTodoDescription.appendChild(
+        document.createTextNode(todoElement.description)
+      );
+      todoItem.appendChild(newTodoDescription);
 
-    todoItem.getObj = todoElement;
-    todoList.appendChild(todoItem);
+      const newTodoDeleteButton = document.createElement("button");
+      newTodoDeleteButton.classList = "btn-delete-todo";
+      newTodoDeleteButton.id = "delete-" + classId;
+      newTodoDeleteButton.appendChild(document.createTextNode("x"));
+      todoItem.appendChild(newTodoDeleteButton);
+
+      todoItem.getObj = todoElement;
+      todoList.appendChild(todoItem);
+    }
   });
 }
 
 function isDuplicate(todoDescription) {
-  console.log(todoDescription);
   for (let i = 0; i < state.todos.length; i++) {
     const currentTodo = state.todos[i];
     if (
@@ -130,9 +151,12 @@ buttonAddTodo.addEventListener("click", () => {
   console.log(newTodoObject);
   postTodo(newTodoObject);
   renderTodos();
-  console.log(state.todos);
 });
 
+const filter = document.querySelector("#filter-select");
+filter.addEventListener("change", () => {
+  renderTodos();
+});
 ///////////////////////////////////////////////////
 getState();
 renderTodos();
