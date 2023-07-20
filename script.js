@@ -146,7 +146,8 @@ todoList.addEventListener("change", (e) => {
 //-------- add toDo -----------
 const buttonAddTodo = document.querySelector("#btn-add-todo");
 const inputNewTodo = document.querySelector("#input-new-todo");
-buttonAddTodo.addEventListener("click", () => {
+buttonAddTodo.addEventListener("click", (e) => {
+  console.log(e);
   const description = inputNewTodo.value.trim();
   if (!description) {
     alert(
@@ -164,9 +165,7 @@ buttonAddTodo.addEventListener("click", () => {
     done: false,
   };
 
-  console.log(inputNewTodo);
   inputNewTodo.value = "";
-
   postTodo(newTodoObject);
   renderTodos();
 });
