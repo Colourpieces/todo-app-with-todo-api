@@ -52,7 +52,7 @@ function renderTodos() {
 
   todoList.innerHTML = "";
 
-  state.todos.forEach((todoElement) => {
+  state.todos.forEach((todoElement, index) => {
     let renderTodoItem = true;
 
     switch (filter.value) {
@@ -72,8 +72,6 @@ function renderTodos() {
         break;
     }
     if (renderTodoItem) {
-      //wie unterbricht man forEach??
-
       const todoItem = document.createElement("li");
       todoItem.classList = "todo-item";
 
@@ -86,6 +84,10 @@ function renderTodos() {
       //newTodoState.id = `todo-${todoElement.id}`;
       //newTodoState.setAttribute("id", "`todo-${todoElement.id}`");
       //newTodoState.setAttribute("id", classId);
+      newTodoState.addEventListener("change", (e) => {
+        todoElement.done = e.target.checked;
+        putState(todoElement.id, todoElement);
+      });
       newTodoState.id = classId;
       todoItem.appendChild(newTodoState);
 
@@ -107,7 +109,6 @@ function renderTodos() {
       });
       todoItem.appendChild(newTodoDeleteButton);
 
-      todoItem.getObj = todoElement;
       todoList.appendChild(todoItem);
     }
   });
@@ -135,13 +136,6 @@ function isDuplicate(todoDescription) {
   }
   return false;
 }
-
-const todoList = document.querySelector("#todo-list");
-todoList.addEventListener("change", (e) => {
-  const todoLi = e.target.parentNode.getObj;
-  todoLi.done = e.target.checked;
-  putState(todoLi.id, todoLi);
-});
 
 //-------- add toDo -----------
 const buttonAddTodo = document.querySelector("#btn-add-todo");
