@@ -102,12 +102,25 @@ function renderTodos() {
       newTodoDeleteButton.classList = "btn-delete-todo";
       newTodoDeleteButton.id = "delete-" + classId;
       newTodoDeleteButton.appendChild(document.createTextNode("x"));
+      newTodoDeleteButton.addEventListener("click", () => {
+        delteTodo(todoElement.id);
+      });
       todoItem.appendChild(newTodoDeleteButton);
 
       todoItem.getObj = todoElement;
       todoList.appendChild(todoItem);
     }
   });
+}
+
+async function delteTodo(id) {
+  const resp = await fetch("http://localhost:4730/todos/" + id, {
+    method: "DELETE",
+    headers: { "Content-type": "application/json" },
+  });
+  const data = await resp.json(); //nur um zu prüfen ob HTTP Status ok ggf Fehlerhandling
+  getState();
+  renderTodos();
 }
 
 function isDuplicate(todoDescription) {
@@ -130,6 +143,7 @@ todoList.addEventListener("change", (e) => {
   putState(todoLi.id, todoLi);
 });
 
+//-------- add toDo -----------
 const buttonAddTodo = document.querySelector("#btn-add-todo");
 const inputNewTodo = document.querySelector("#input-new-todo");
 buttonAddTodo.addEventListener("click", () => {
@@ -149,6 +163,9 @@ buttonAddTodo.addEventListener("click", () => {
     description: description,
     done: false,
   };
+
+  console.log(inputNewTodo);
+  inputNewTodo.value = "";
 
   postTodo(newTodoObject);
   renderTodos();
