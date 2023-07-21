@@ -32,7 +32,6 @@ async function putState(id, todoLi) {
   });
   const todos = await resp.json();
   getState();
-  renderTodos();
 }
 
 async function postTodo(todoLi) {
@@ -43,7 +42,7 @@ async function postTodo(todoLi) {
   });
   const newTodo = await resp.json();
   state.todos.push(newTodo);
-  renderTodos();
+  getState();
 }
 
 function renderTodos() {
@@ -102,10 +101,10 @@ function renderTodos() {
 
       const newTodoDeleteButton = document.createElement("button");
       newTodoDeleteButton.classList = "btn-delete-todo";
-      newTodoDeleteButton.id = "delete-" + classId;
       newTodoDeleteButton.appendChild(document.createTextNode("x"));
       newTodoDeleteButton.addEventListener("click", () => {
-        delteTodo(todoElement.id);
+        deleteTodo(todoElement.id);
+        getState();
       });
       todoItem.appendChild(newTodoDeleteButton);
 
@@ -114,14 +113,12 @@ function renderTodos() {
   });
 }
 
-async function delteTodo(id) {
+async function deleteTodo(id) {
   const resp = await fetch("http://localhost:4730/todos/" + id, {
     method: "DELETE",
     headers: { "Content-type": "application/json" },
   });
   const data = await resp.json(); //nur um zu prüfen ob HTTP Status ok ggf Fehlerhandling
-  getState();
-  renderTodos();
 }
 
 function isDuplicate(todoDescription) {
@@ -161,13 +158,34 @@ buttonAddTodo.addEventListener("click", (e) => {
 
   inputNewTodo.value = "";
   postTodo(newTodoObject);
-  renderTodos();
 });
 
+//-------- filter toDo -----------
 const filter = document.querySelector("#filter-select");
 filter.addEventListener("sl-change", () => {
   renderTodos();
 });
+
+//-------- delete done toDo -----------
+const buttonDeleteDone = document.querySelector("#btn-delete-done");
+buttonDeleteDone.addEventListener("click", () => {
+  state.todos.forEach((currentTodo) => {
+    if (currentTodo.done === true) {
+      deleteTodo(currentTodo.id);
+    }
+  });
+  getState();
+});
+
+//-------- delete all toDo -----------
+const buttonDeleteAll = document.querySelector("#btn-delete-all");
+buttonDeleteAll.addEventListener("click", () => {
+  state.todos.forEach((currentTodo) => {
+    deleteTodo(currentTodo.id);
+  });
+  getState();
+});
+
 ///////////////////////////////////////////////////
 window.onload = function () {
   getState();
