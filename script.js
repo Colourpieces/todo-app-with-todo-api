@@ -80,9 +80,9 @@ function renderTodos() {
       newTodoState.type = "checkbox";
       newTodoState.checked = todoElement.done;
       newTodoState.classList = "checkbox";
-      //newTodoState.id = `todo-${todoElement.id}`;
-      //newTodoState.setAttribute("id", "`todo-${todoElement.id}`");
-      //newTodoState.setAttribute("id", classId);
+      //newTodoState.id = `todo-${todoElement.id}`;                       //funktioniert nicht
+      //newTodoState.setAttribute("id", "`todo-${todoElement.id}`");      //funktioniert nicht
+      //newTodoState.setAttribute("id", classId);                         //funktioniert
       newTodoState.addEventListener("change", (e) => {
         todoElement.done = e.target.checked;
         putState(todoElement.id, todoElement);
@@ -92,8 +92,7 @@ function renderTodos() {
 
       const newTodoDescription = document.createElement("label");
       newTodoDescription.classList = "todo-description";
-
-      newTodoDescription.htmlFor = classId;
+      newTodoDescription.htmlFor = classId; //notwendig um label und checkbox
       newTodoDescription.appendChild(
         document.createTextNode(todoElement.description)
       );
@@ -135,10 +134,9 @@ function isDuplicate(todoDescription) {
 }
 
 //-------- add toDo -----------
-const buttonAddTodo = document.querySelector("#btn-add-todo");
-const inputNewTodo = document.querySelector("#input-new-todo");
-buttonAddTodo.addEventListener("click", (e) => {
-  console.log(e);
+function addTodo(e) {
+  e.preventDefault;
+
   const description = inputNewTodo.value.trim();
   if (!description) {
     alert(
@@ -158,6 +156,18 @@ buttonAddTodo.addEventListener("click", (e) => {
 
   inputNewTodo.value = "";
   postTodo(newTodoObject);
+}
+
+const buttonAddTodo = document.querySelector("#btn-add-todo");
+const inputNewTodo = document.querySelector("#input-new-todo");
+buttonAddTodo.addEventListener("click", (event) => {
+  addTodo(event);
+});
+inputNewTodo.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    addTodo(event);
+  }
+  inputNewTodo.focus(); //funktioniert nicht. warum?
 });
 
 //-------- filter toDo -----------

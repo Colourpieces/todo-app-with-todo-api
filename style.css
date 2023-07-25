@@ -49,40 +49,30 @@ h1 {
 }
 
 .input-new-todo {
-  /* all: unset; */
-  /* display: inline-block; */
-  /* flex-grow: 1; */
-  /* width: auto;
-  background-color: red /*var(--light-grey)*/
-  /* padding: 0.2em; */
   border: 0.1em solid transparent;
   border-radius: 0.3em;
-  width: 70ch;
+  width: 20ch;
 }
 
 .input-new-todo:focus,
-select:focus {
+#filter-select:focus {
   border: 0.1em solid var(--yellow);
   border-radius: 0.3em;
 }
 
-select {
-  all: unset;
-  /* display: inline-block; */
-  /* flex-grow: 1; */
-  width: auto;
-  background-color: var(--light-grey);
-  padding: 0.2em;
+#filter-select {
+  /* unnötig ? */
   border: 0.1em solid transparent;
   border-radius: 0.3em;
-  box-shadow: 3px 3px 0px var(--turkis);
 }
 
 .button {
   all: unset;
-  /*display: block;
+
+  display: block;
   word-break: keep-all;
-  word-wrap: normal;*/
+  word-wrap: normal;
+
   color: var(--white);
   background-color: var(--light-blue);
   padding: 0.5em 1em;
