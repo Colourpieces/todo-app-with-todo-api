@@ -9,34 +9,45 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/svg" href="favicon.svg" />
 
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
 </head>
 
 <body>
-    <header class="header">
-        <h1>ToDo App</h1>
-    </header>
-    <main>
-        <div class="toolbar">
-            <form class="wrapper-add-todo">
-                <label for="input-new-todo">neue Aufgabe:</label>
-                <sl-input class="input-new-todo" id="input-new-todo" type="text" placeholder="du schaffst das!"
-                    clearable></sl-input>
-                <button type="submit" class="button" id="btn-add-todo">+</button>
-            </form>
-            <button class="button" id="btn-delete-done">erledigte löschen</button>
-            <button class="button" id="btn-delete-all">Alle löschen</button>
-            <div class="filter-wrapper">
-                <label>Filter:</label>
-                <sl-select name="filter" id="filter-select" value="all">
-                    <sl-option value="all">Alle</sl-option>
-                    <sl-option value="done">erledigt</sl-option>
-                    <sl-option value="open">unerledigt</sl-option>
-                </sl-select>
+    <div id="app">
+        <header class="header">
+            <h1>ToDo App</h1>
+        </header>
+        <main>
+            <div class="toolbar">
+                <form class="wrapper-add-todo" @submit.prevent="addTodo()">
+                    <label for="input-new-todo">neue Aufgabe:</label>
+                    <sl-input @sl-change="getNewTodo" class="input-new-todo" id="input-new-todo" type="text"
+                        placeholder="du schaffst das!" ref="description" clearable></sl-input>
+                    <button @click.prevent="addTodo" type="submit" class="button" id="btn-add-todo">+</button>
+                </form>
+                <button class="button" @click="deleteDoneTodos()" id="btn-delete-done">erledigte löschen</button>
+                <button class="button" @click="deleteAllTodos()" id="btn-delete-all">Alle löschen</button>
+                <div class="filter-wrapper">
+                    <label>Filter:</label>
+                    <sl-select @sl-change="changeFilter" name="filter" id="filter-select" value="all">
+                        <sl-option value="all">Alle</sl-option>
+                        <sl-option value="done">erledigt</sl-option>
+                        <sl-option value="open">unerledigt</sl-option>
+                    </sl-select>
+                </div>
             </div>
-        </div>
-        <ul class="todo-list" id="todo-list">
-        </ul>
-    </main>
+            <ul class="todo-list" id="todo-list">
+                <li v-for="todo in filteredTodos" :key="todo.id" class="todo-item">
+                    <input :id="todo.id" @change="putTodo(todo.id, todo)" type="checkbox" v-model="todo.done"
+                        class="checkbox">
+                    <label :for="todo.id" class="todo-description">{{todo.description}}</label>
+                    <button @click="deleteTodo(todo.id)">x</button>
+                </li>
+            </ul>
+        </main>
+    </div>
+
 
     <script type="module"
         src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.5.2/cdn/shoelace-autoloader.js"></script>
